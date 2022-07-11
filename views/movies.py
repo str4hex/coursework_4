@@ -1,3 +1,4 @@
+from flask import request
 from flask_restx import Resource, Namespace
 from container import movies_service
 from dao.models.movie import MovieSchema
@@ -8,17 +9,22 @@ movie_shema = MovieSchema()
 ns_movies = Namespace('movies')
 
 
-
 @ns_movies.route('/')
 class MoviesVies(Resource):
 
     def get(self):
+        page = request.args.get('page')
+        if page:
+            get_all_movies = movies_service.get_status_movies(int(page))
+            return movies_shema.dump(get_all_movies)
         get_all_movies = movies_service.get_all_movie()
-        return movie_shema.dump(get_all_movies), 200
+        return movies_shema.dump(get_all_movies), 200
+
 
 @ns_movies.route('/<int:mid>')
-class MovieVies(Resource):
+class MovieViews(Resource):
 
     def get(self, mid):
         get_movie = movies_service.get_movie(mid)
         return movie_shema.dump(get_movie), 200
+

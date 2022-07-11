@@ -10,3 +10,6 @@ class MoviesService:
 
     def get_movie(self, mid):
         return self.dao.get_movie(mid)
+
+    def get_status_movies(self, page):
+        return self.dao.get_status_movies(page)
