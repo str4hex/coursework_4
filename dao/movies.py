@@ -1,3 +1,5 @@
+from sqlalchemy import desc
+
 from dao.models.movie import Movie
 
 class MoviesDAO:
@@ -12,4 +14,4 @@ class MoviesDAO:
         return self.session.query(Movie).get(mid)
 
     def get_status_movies(self, page):
-        return self.session.query(Movie).paginate(page=page, per_page=None, error_out=True)
+        return self.session.query(Movie).order_by(desc(Movie.year)).paginate(page=page, per_page=12)
