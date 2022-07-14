@@ -16,10 +16,11 @@ class UserCreateView(Resource):
 
 @ns_auth.route('/login')
 class UserViews(Resource):
-    data = request.json
-    email = data['email']
-    password = data['password']
-    if not (email or password):
-        return "", 400
+    def post(self):
+        data = request.json
+        email = data.get('email')
+        password = data.get('password')
+        if not (email or password):
+            return False, 400
 
 
