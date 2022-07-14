@@ -5,12 +5,11 @@ from marshmallow import Schema, fields
 class User(db.Model):
     __tablename__ = 'user'
 
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.COlumn(db.String, unique=True)
-    password = db.COlumn(db.String)
-    name = db.COlumn(db.String)
-    surname = db.COlumn(db.String)
-    favorite_genre = db.COlumn(db.String)
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    email = db.Column(db.String, unique=True)
+    password = db.Column(db.String)
+    name = db.Column(db.String)
+    favorite_genre = db.Column(db.String)
 
 
 class UserSchema(Schema):
