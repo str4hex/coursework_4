@@ -14,4 +14,3 @@ class UserDAO:
 
     def get_user(self, email):
         return self.session.query(User).filter(User.email == email).first()
-

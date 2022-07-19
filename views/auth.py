@@ -1,26 +1,38 @@
 from flask import request
-from container import auth_service
+from container import user_service, auth_service
 from flask_restx import Resource, Namespace
 
 ns_auth = Namespace('auth')
 
 
-@ns_auth.route('/register')
+@ns_auth.route('/register/')
 class UserCreateView(Resource):
 
     def post(self):
         user_data = request.json
-        auth_service.create_user(user_data)
+        user_service.create_user(user_data)
         return '', 204
 
 
 @ns_auth.route('/login')
 class UserViews(Resource):
     def post(self):
-        data = request.json
-        email = data.get('email')
-        password = data.get('password')
+        req_json = request.json
+        email = req_json.get('email')
+        password = req_json.get('password')
         if not (email or password):
-            return False, 400
+            return "Не задано имя или пароль", 400
+
+        tokens = auth_service.generate_token(email,password)
+        if tokens:
+            return tokens
+        else:
+            return "Ошибка в запросе", 400
+
+
+
+
+
+
 
 

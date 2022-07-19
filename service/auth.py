@@ -1,26 +1,45 @@
-import base64
-import hashlib
+import calendar
+import datetime
+import hmac
+import jwt
 
-from const import PWD_HASH_SALT, PWD_HASH_ITERATIONS
-from dao.auth import UserDAO
+from const import JWT_SECRET_KEY
+from dao.user import UserDAO
+from service.user import UserService
 
 
-class UserService:
+class AuthService:
 
-    def __init__(self, dao: UserDAO):
+    def __init__(self, dao: UserDAO, service: UserService):
         self.dao = dao
+        self.service = service
 
-    def create_user(self, data):
-        data['password'] = self.get_password_hash(data['password'])
-        return self.dao.create_user(data)
+    def generate_token(self, email, password, is_refresh=False):
+        user_email = self.dao.get_user(email)
 
-    def get_user(self,email):
-        return self.dao.get_user(email)
+        if not email:
+            return False
 
-    def get_password_hash(self, password):
-        return base64.b64encode(hashlib.pbkdf2_hmac(
-            'sha256',
-            password.encode('utf-8'),
-            PWD_HASH_SALT,
-            PWD_HASH_ITERATIONS
-        ))
+        if not is_refresh:
+            if not self.compare_password(password, user_email.password):
+                return False
+
+
+
+        data = {"email": email}
+
+
+        min30 = datetime.datetime.utcnow() + datetime.timedelta(minutes=30)
+        data["exp"] = calendar.timegm(min30.timetuple())
+        access_token = jwt.encode(data, JWT_SECRET_KEY, algorithm='HS256')
+
+
+        days = datetime.datetime.utcnow() + datetime.timedelta(days=30)
+        data["exp"] = calendar.timegm(days.timetuple())
+        refresh_token = jwt.encode(data, JWT_SECRET_KEY, algorithm='HS256')
+
+
+        return {"access_token": access_token, 'refresh_token': refresh_token}
+
+    def compare_password(self, password, password_hash):
+        return hmac.compare_digest(self.service.get_password_hash(password), password_hash)
