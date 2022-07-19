@@ -15,7 +15,7 @@ class GenresViews(Resource):
         all_movies = genres_service.get_all_genres()
         return genres_schema.dump(all_movies), 200
 
-@ns_genres.route('/<int:gid>')
+@ns_genres.route('/<int:gid>/')
 class GenreViews(Resource):
 
     def get(self, gid):

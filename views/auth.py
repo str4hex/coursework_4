@@ -14,7 +14,8 @@ class UserCreateView(Resource):
         return '', 204
 
 
-@ns_auth.route('/login')
+
+@ns_auth.route('/login/')
 class UserViews(Resource):
     def post(self):
         req_json = request.json
@@ -25,7 +26,7 @@ class UserViews(Resource):
 
         tokens = auth_service.generate_token(email,password)
         if tokens:
-            return tokens
+            return tokens, 204
         else:
             return "Ошибка в запросе", 400
 
