@@ -29,3 +29,11 @@ class ViewUser(Resource):
         user = user_service.get_user(data['email'])
 
         return user_shema.dump(user)
+
+    def patch(self):
+        data = request.json
+        return user_service.update_user(data), 204
+
+    def post(self):
+        data = request.json
+        return

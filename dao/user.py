@@ -12,5 +12,17 @@ class UserDAO:
         self.session.commit()
         return ''
 
+    def update_user(self,data):
+        user = User(**data)
+        self.session.add(user)
+        self.session.commit()
+        return ''
+
     def get_user(self, email):
         return self.session.query(User).filter(User.email == email).first()
+
+    def get_new_password(self, data):
+        user = User(**data)
+        self.session.add(user)
+        self.session.commit()
+        return ''

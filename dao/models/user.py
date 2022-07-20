@@ -9,7 +9,8 @@ class User(db.Model):
     email = db.Column(db.String, unique=True)
     password = db.Column(db.String)
     name = db.Column(db.String)
-    favorite_genre = db.Column(db.String)
+    surname = db.Column(db.String)
+    favourite_genre = db.Column(db.String)
 
 
 class UserSchema(Schema):

@@ -3,7 +3,7 @@ import hashlib
 
 from const import PWD_HASH_SALT, PWD_HASH_ITERATIONS
 from dao.user import UserDAO
-
+from container import auth_service
 
 
 class UserService:
@@ -15,6 +15,8 @@ class UserService:
         data['password'] = self.get_password_hash(data.get('password'))
         return self.dao.create_user(data)
 
+    def update_user(self,data):
+        return self.dao.update_user(data)
     def get_user(self, email):
         return self.dao.get_user(email)
 
@@ -25,3 +27,7 @@ class UserService:
             PWD_HASH_SALT,
             PWD_HASH_ITERATIONS
         ))
+
+    def user_new_password(self, data):
+        if not auth_service.compare_password()
+        return
