@@ -16,3 +16,6 @@ class MoviesService:
 
     def get_page_movie(self, page):
         return self.dao.get_page_movie(page)
+
+    def get_new_movies(self):
+        return self.dao.get_new_movies()

@@ -19,6 +19,9 @@ class MoviesVies(Resource):
             if page:
                 get_all_movies = movies_service.get_status_movies(int(page))
                 return movies_shema.dump(get_all_movies.items)
+            else:
+                return movies_shema.dump(movies_service.get_new_movies())
+
         if page:
             get_all_movies = movies_service.get_page_movie(int(page))
             return movies_shema.dump(get_all_movies.items)
@@ -26,7 +29,7 @@ class MoviesVies(Resource):
         return movies_shema.dump(get_all_movies), 200
 
 
-@ns_movies.route('/<int:mid>')
+@ns_movies.route('/<int:mid>/')
 class MovieViews(Resource):
 
     def get(self, mid):

@@ -26,7 +26,7 @@ class UserViews(Resource):
 
         tokens = auth_service.generate_token(email,password)
         if tokens:
-            return tokens, 204
+            return tokens, 202
         else:
             return "Ошибка в запросе", 400
 

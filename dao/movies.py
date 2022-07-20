@@ -19,3 +19,6 @@ class MoviesDAO:
 
     def get_status_movies(self, page):
         return self.session.query(Movie).order_by(desc(Movie.year)).paginate(page=page, per_page=12)
+
+    def get_new_movies(self):
+        return self.session.query(Movie).order_by(desc(Movie.year))
