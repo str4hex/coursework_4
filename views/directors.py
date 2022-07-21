@@ -16,7 +16,7 @@ class DirectorsVires(Resource):
         all_directors = directors_service.get_all_directors()
         return directors_shema.dump(all_directors)
 
-@ns_directors.route('/<int:did>')
+@ns_directors.route('/<int:did>/')
 class DirectorsVires(Resource):
 
     def get(self,did):

@@ -18,4 +18,4 @@ class UserSchema(Schema):
     email = fields.String()
     name = fields.String()
     surname = fields.String()
-    favorite_genre = fields.String()
+    favourite_genre = fields.String()

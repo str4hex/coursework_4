@@ -30,9 +30,17 @@ class UserViews(Resource):
         else:
             return "Ошибка в запросе", 400
 
+    def put(self):
+        req_json = request.json
+        refresh_token = req_json.get("refresh_token")
+        if not refresh_token:
+            return "Не задан токен", 400
 
-
-
+        tokens = auth_service.refresh_token(refresh_token)
+        if tokens:
+            return tokens
+        else:
+            return "Ошибка в запросе", 400
 
 
 

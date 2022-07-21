@@ -1,9 +1,10 @@
 import base64
 import hashlib
+import hmac
 
 from const import PWD_HASH_SALT, PWD_HASH_ITERATIONS
 from dao.user import UserDAO
-from container import auth_service
+
 
 
 class UserService:
@@ -17,6 +18,7 @@ class UserService:
 
     def update_user(self,data):
         return self.dao.update_user(data)
+
     def get_user(self, email):
         return self.dao.get_user(email)
 
@@ -28,6 +30,9 @@ class UserService:
             PWD_HASH_ITERATIONS
         ))
 
-    def user_new_password(self, data):
-        if not auth_service.compare_password()
-        return
+    def compare_password(self, password, password_hash):
+        return hmac.compare_digest(self.get_password_hash(password), password_hash)
+
+    def get_new_password(self, password, email):
+        return self.dao.get_new_password(password,email)
+
