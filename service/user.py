@@ -16,8 +16,8 @@ class UserService:
         data['password'] = self.get_password_hash(data.get('password'))
         return self.dao.create_user(data)
 
-    def update_user(self,data):
-        return self.dao.update_user(data)
+    def update_user(self,user_mail, data):
+        return self.dao.update_user(user_mail, data)
 
     def get_user(self, email):
         return self.dao.get_user(email)

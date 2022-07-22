@@ -32,8 +32,17 @@ class ViewUser(Resource):
 
     def patch(self):
         data = request.json
-        return user_service.update_user(data), 204
+        token = request.headers['Authorization'].split()
 
+        try:
+            token_decode = jwt.decode(token[1], JWT_SECRET_KEY, algorithms="HS256")
+        except Exception as e:
+            print(f"JWT decode error{e}")
+            abort(401)
+
+        user_email = token_decode['email']
+
+        return user_service.update_user(user_email, data), 204
 
 @ns_user.route('/password/')
 class UserPasswordViews(Resource):
@@ -46,6 +55,6 @@ class UserPasswordViews(Resource):
         if not user_service.compare_password(data['old_password'], user.password):
             return "Введеный пароль не совпадает с действующим паролем", 400
 
-        user_service.get_new_password(user_service.get_password_hash(data['new_password']),decode_token['email'])
+        user_service.get_new_password(user_service.get_password_hash(data['new_password']), decode_token['email'])
 
         return '', 200
